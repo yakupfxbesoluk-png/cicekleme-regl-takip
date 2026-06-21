@@ -1,0 +1,14 @@
+{
+  "appId": "com.yakup.cicekleme",
+  "appName": "Çiçeklenme",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon",
+      "iconColor": "#B5467A"
+    }
+  }
+}
