@@ -15,8 +15,16 @@ React + Vite + Tailwind CSS ile yazıldı, Capacitor ile Android uygulamasına p
 - **Yerel bildirimler** — yaklaşan regl, yumurtlama ve günlük doldurma hatırlatmaları
   (@capacitor/local-notifications, tamamen cihaz üzerinde planlanır).
 - **Açık/Koyu/Sistem tema** — `@capacitor/preferences` ile cihazda saklanan tercih.
-- **%100 yerel veri** — hiçbir veri sunucuya gönderilmez, tamamı `@capacitor/preferences` ile
-  cihazda tutulur.
+- **Tıbbi terimler sözlüğü** — uygulamada geçen terimlerin (ovülasyon, luteal faz, doğurgan
+  pencere, PMS, BVS vb.) aranabilir, kategorilere ayrılmış açıklamaları.
+- **Reklam entegrasyonu (Google AdMob)** — alt navigasyonun üzerinde banner reklam ve günlük
+  kaydı gibi doğal duraklama noktalarında, sık olmayacak şekilde (her 4 kayıtta bir) geçiş
+  reklamı. Şu an Google'ın resmi TEST ID'leriyle çalışıyor — yayına çıkmadan önce
+  `src/config/ads.js` ve `AndroidManifest.xml` içindeki ID'leri kendi AdMob hesabınla
+  değiştirmen gerekir (dosyanın içinde adım adım açıklama var).
+- **Regl/semptom verisi tamamen yerel** — bu veriler hiçbir sunucuya gönderilmez. Reklam
+  altyapısı (AdMob) kendi işleyişi için Google ile sınırlı cihaz verisi paylaşabilir; bu Google'ın
+  kendi gizlilik politikasına tabidir.
 
 > ⚕️ Not: Uygulama genel istatistiksel tahminler sunar, tıbbi tavsiye yerine geçmez.
 
@@ -85,6 +93,22 @@ git branch -M main
 git remote add origin https://github.com/<kullanici-adin>/cicekleme.git
 git push -u origin main
 ```
+
+## AdMob reklamlarını gerçek hesabınla bağlama
+
+Şu an uygulama Google'ın **test** reklam ID'leriyle çalışıyor (gerçek reklam göstermez, sadece
+örnek/test reklamları gösterir). Yayına çıkmadan önce:
+
+1. https://apps.admob.com adresinde bir AdMob hesabı aç, uygulamanı (Android) ekle.
+2. Bir **Banner** ve istersen bir **Geçiş (Interstitial)** reklam birimi oluştur.
+3. `src/config/ads.js` dosyasındaki `PRODUCTION_IDS` değerlerini kendi `appId`, `banner`,
+   `interstitial` ID'lerinle doldur ve `useTestIds`'i `false` yap.
+4. `android/app/src/main/AndroidManifest.xml` içindeki
+   `com.google.android.gms.ads.APPLICATION_ID` meta-data değerini de aynı `appId` ile değiştir.
+5. `npm run build && npx cap sync android` çalıştırıp APK'yı yeniden üret.
+
+> Test ID'leriyle yayına çıkmak AdMob hesap politikalarına aykırıdır — gerçek ID'leri girmeden
+> Play Store'a yüklemiyoruz.
 
 ## Proje yapısı
 
